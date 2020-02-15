@@ -9,9 +9,10 @@ const CHAINLINK_IP = "http://35.226.187.4:6688"
 const CHAINLINK_ACCESS_KEY = "934de8d11ba04776983c88c08dcc4391"
 const CHAINLINK_ACCESS_SECRET = "0U8n49W8a3nFUChxZvKNDXrCAY2Ltec4cG2kNmMY0AUMxUdvlPGOr1c2W/W3mAnD"
 //var requestID = "27088baff0bf4e0b8653e2ac3b1c77c4"
-var requestID = "116e2b0c02e049a3ae4208ad48ba1aae"
+var requestID = "97ed263bb0b04070b12cf8c613840e00"
 var lastTemp = 0
 var THRESHOLD = 30
+var currentContractId = 0
 
 app.get('/', function (req, res) {
    res.sendStatus(200);
@@ -25,7 +26,9 @@ app.post('/', function (req, res) {
  })
 
 app.get("/temp", function(req, res) {
-    res.send({'temperature': lastTemp})
+    res.send({'id': currentContractId})
+    currentContractId++;
+    console.log(currentContractId)
 });
 
 app.post("/temp", function(req, res) {
@@ -55,21 +58,23 @@ function callChainlinkNode() {
     console.log("Job Sent")
 }
 
-setInterval(function () {
-    // request(SENSOR_IP, function (error, response, body) {
-    //     // console.log(error)
-    //     //console.log(response)
-    //     console.log(body)
-    // });
+// setInterval(function () {
+//     // request(SENSOR_IP, function (error, response, body) {
+//     //     // console.log(error)
+//     //     //console.log(response)
+//     //     console.log(body)
+//     // });
 
-    // var temp = 34 - Math.floor(Math.random() * Math.floor(5));
+//     // var temp = 34 - Math.floor(Math.random() * Math.floor(5));
 
-    // // //TODO Sensor response logic
-    // if (temp < THRESHOLD) {
-    //     //Call chainlink node
-    //     console.log(temp)
-    //     callChainlinkNode()
-    // }
+//     // // //TODO Sensor response logic
+//     // if (temp < THRESHOLD) {
+//     //     //Call chainlink node
+//     //     console.log(temp)
+//     //     callChainlinkNode()
+//     // }
 
-    callChainlinkNode()
-}, 20000);
+//     //Payout active contracts
+
+//     callChainlinkNode()
+// }, 20000);
