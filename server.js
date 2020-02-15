@@ -11,6 +11,7 @@ app.get("/temp", function(req, res) {
 
 app.post("/temp", function(req, res) {
     console.log(req.body)
+    res.sendStatus(200)
 });
 
 var server = app.listen(process.env.PORT || 8080, function () {
