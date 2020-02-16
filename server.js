@@ -60,7 +60,11 @@ var server = app.listen(process.env.PORT || 8080, function () {
 async function updateCurrentActiveJob() {
     var insuralinkContract = new web3.eth.Contract(insuralink.abi, INSURALINK_ADDRESS)
     insuralinkContract.methods.activeCounter().call().then((result) => {
-    currentContractId = result - 1
+    if (result == 0) {
+        currentContractId = 0
+    } else {
+        currentContractId = result - 1
+    }
     console.log(currentContractId)
     })
 }
@@ -80,23 +84,23 @@ function callChainlinkNode() {
 }
 
 //Poll sensors
-setInterval(function () {
-    request(SENSOR_IP, function (error, response, body) {
-        // console.log(error)
-        //console.log(response)
-        var data = JSON.parse(body)
-        console.log(data)
-        console.log(data.temperature)
-        console.log(data.temperature < THRESHOLD)
-        //TODO Sensor response logic
-        console.log(lastFireTime)
-        console.log(Math.round((new Date()).getTime() / 1000) - 60)
-        if (data.temperature < THRESHOLD && lastFireTime < Math.round((new Date()).getTime() / 1000) - 45) {
-            lastFireTime = Math.round((new Date()).getTime() / 1000);
-            //Call chainlink node
-            console.log("FIRING JOB")
-            console.log(data.temperature)
-            callChainlinkNode()
-        }
-    });
-}, 5000);
+// setInterval(function () {
+//     request(SENSOR_IP, function (error, response, body) {
+//         // console.log(error)
+//         //console.log(response)
+//         var data = JSON.parse(body)
+//         console.log(data)
+//         console.log(data.temperature)
+//         console.log(data.temperature < THRESHOLD)
+//         //TODO Sensor response logic
+//         console.log(lastFireTime)
+//         console.log(Math.round((new Date()).getTime() / 1000) - 60)
+//         if (data.temperature < THRESHOLD && lastFireTime < Math.round((new Date()).getTime() / 1000) - 45) {
+//             lastFireTime = Math.round((new Date()).getTime() / 1000);
+//             //Call chainlink node
+//             console.log("FIRING JOB")
+//             console.log(data.temperature)
+//             callChainlinkNode()
+//         }
+//     });
+// }, 5000);
