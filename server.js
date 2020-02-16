@@ -16,7 +16,7 @@ var JOB_ID = "4aff371dd12e47c6bd9b20bf4d5810b8"
 var TEST_DAI = "0xBc980E67F6122F6E55fBeb9893A70c848d288B25"
 //var KYBER_TEST_DAI = "0xad6d458402f60fd3bd25163575031acdce07538d"
 
-var lastFireTime = Math.round((new Date()).getTime() / 1000)
+var lastFireTime = 0
 var THRESHOLD = 30
 var currentContractId = 0
 
@@ -42,8 +42,8 @@ app.post('/', function (req, res) {
 /** Called by chainlink node when running the job */ 
 app.get("/temp", function(req, res) {
     res.send({'id': currentContractId})
-    currentContractId++;
     console.log(currentContractId)
+    updateCurrentActiveJob()
 });
 
 // app.post("/temp", function(req, res) {
@@ -79,7 +79,7 @@ function callChainlinkNode() {
     console.log("Job Sent")
 }
 
-//Poll sensors
+// //Poll sensors
 // setInterval(function () {
 //     request(SENSOR_IP, function (error, response, body) {
 //         // console.log(error)
