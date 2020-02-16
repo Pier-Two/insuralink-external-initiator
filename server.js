@@ -11,8 +11,8 @@ const SENSOR_IP = "http://10.0.1.13"
 const CHAINLINK_IP = "http://35.226.187.4:6688"
 const CHAINLINK_ACCESS_KEY = "934de8d11ba04776983c88c08dcc4391"
 const CHAINLINK_ACCESS_SECRET = "0U8n49W8a3nFUChxZvKNDXrCAY2Ltec4cG2kNmMY0AUMxUdvlPGOr1c2W/W3mAnD"
-const INSURALINK_ADDRESS = "0xfcB3C8Cfe463F441A14d2c511A67dA02344985e4"
-var JOB_ID = "4aff371dd12e47c6bd9b20bf4d5810b8"
+const INSURALINK_ADDRESS = "0xf09931E948C261bC6bdE3bE18Ae02493bd5a0e5E"
+var JOB_ID = "5e0fe1e0b89a4c7198be0fae12d84889"
 var TEST_DAI = "0xBc980E67F6122F6E55fBeb9893A70c848d288B25"
 //var KYBER_TEST_DAI = "0xad6d458402f60fd3bd25163575031acdce07538d"
 
@@ -79,7 +79,7 @@ function callChainlinkNode() {
     console.log("Job Sent")
 }
 
-// //Poll sensors
+//Poll sensors
 // setInterval(function () {
 //     request(SENSOR_IP, function (error, response, body) {
 //         // console.log(error)
