@@ -61,7 +61,7 @@ async function updateCurrentActiveJob() {
     var insuralinkContract = new web3.eth.Contract(insuralink.abi, INSURALINK_ADDRESS)
     insuralinkContract.methods.activeCounter().call().then((result) => {
     console.log(result)
-    currentContractId = result - 1
+    currentContractId = result
     })
 }
 
