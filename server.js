@@ -2,17 +2,32 @@ var express = require('express');
 var bodyParser = require("body-parser");
 var request = require("request")
 var app = express();
+var insuralink = require('./insuralink.json')
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-const SENSOR_IP = "http://10.0.0.210"
+
+//Consts
+const SENSOR_IP = "http://10.0.1.13"
 const CHAINLINK_IP = "http://35.226.187.4:6688"
 const CHAINLINK_ACCESS_KEY = "934de8d11ba04776983c88c08dcc4391"
 const CHAINLINK_ACCESS_SECRET = "0U8n49W8a3nFUChxZvKNDXrCAY2Ltec4cG2kNmMY0AUMxUdvlPGOr1c2W/W3mAnD"
+const INSURALINK_ADDRESS = "0x08e8de6956b869b2C656c4742f6Af12fCeB91e9d"
 //var requestID = "27088baff0bf4e0b8653e2ac3b1c77c4"
-var requestID = "97ed263bb0b04070b12cf8c613840e00"
+var requestID = "0202447b75984769b517927f43da4bb5"
 var lastTemp = 0
+var lastFireTime = 0
 var THRESHOLD = 30
 var currentContractId = 0
+
+//Setup web3
+//On server startup pull the latest currentContractId from the contract to stay in sync
+var Web3 = require('web3');
+var web3 = new Web3('wss://ropsten-rpc.linkpool.io/ws');
+// var insuralinkContract = new web3.eth.Contract(insuralink.abi, INSURALINK_ADDRESS)
+// insuralinkContract.methods.activeCounter().call().then((result) => {
+//     console.log(result)
+//     currentContractId = result
+// })
 
 app.get('/', function (req, res) {
    res.sendStatus(200);
@@ -58,23 +73,21 @@ function callChainlinkNode() {
     console.log("Job Sent")
 }
 
-// setInterval(function () {
-//     // request(SENSOR_IP, function (error, response, body) {
-//     //     // console.log(error)
-//     //     //console.log(response)
-//     //     console.log(body)
-//     // });
-
-//     // var temp = 34 - Math.floor(Math.random() * Math.floor(5));
-
-//     // // //TODO Sensor response logic
-//     // if (temp < THRESHOLD) {
-//     //     //Call chainlink node
-//     //     console.log(temp)
-//     //     callChainlinkNode()
-//     // }
-
-//     //Payout active contracts
-
-//     callChainlinkNode()
-// }, 20000);
+setInterval(function () {
+    request(SENSOR_IP, function (error, response, body) {
+        // console.log(error)
+        //console.log(response)
+        var data = JSON.parse(body)
+        console.log(data)
+        console.log(data.temperature)
+        console.log(data.temperature > THRESHOLD)
+        //TODO Sensor response logic
+        if (data.temperature > THRESHOLD && lastFireTime < Math.round((new Date()).getTime() / 1000) - 60) {
+            lastFireTime = Math.round((new Date()).getTime() / 1000);
+            //Call chainlink node
+            console.log("FIRING JOB")
+            console.log(body.temperature)
+            callChainlinkNode()
+        }
+    });
+}, 5000);
