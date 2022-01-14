@@ -19,12 +19,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/securedatalinks/insuralink-external-initiator.git"
+    "url": "git+https://github.com/mycelium-ethereum/insuralink-external-initiator.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/securedatalinks/insuralink-external-initiator/issues"
+    "url": "https://github.com/mycelium-ethereum/insuralink-external-initiator/issues"
   },
-  "homepage": "https://github.com/securedatalinks/insuralink-external-initiator#readme"
+  "homepage": "https://github.com/mycelium-ethereum/insuralink-external-initiator#readme"
 }
